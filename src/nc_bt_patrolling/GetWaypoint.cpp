@@ -32,7 +32,7 @@ int GetWaypoint::current_ = 0;
 GetWaypoint::GetWaypoint(
   const std::string & xml_tag_name,
   const BT::NodeConfiguration & conf)
-: BT::ActionNodeBase(xml_tag_name, conf)
+: BT::ActionNodeBase(xml_tag_name, conf), Node("nc_bt_patrolling")
 {
   rclcpp::Node::SharedPtr node;
   config().blackboard->get("node", node);
@@ -41,24 +41,36 @@ GetWaypoint::GetWaypoint(
   wp.header.frame_id = "map";
   wp.pose.orientation.w = 1.0;
 
-  // recharge wp
-  wp.pose.position.x = 3.67;
-  wp.pose.position.y = -0.24;
-  recharge_point_ = wp;
-
   // wp1
-  wp.pose.position.x = 1.07;
-  wp.pose.position.y = -12.38;
+  declare_parameter("wp_1", std::vector<double>());
+  get_parameter("wp_1", wp_);
+
+  wp.pose.position.x = wp_[0];
+  wp.pose.position.y = wp_[1];
   waypoints_.push_back(wp);
 
   // wp2
-  wp.pose.position.x = -5.32;
-  wp.pose.position.y = -8.85;
+  declare_parameter("wp_2", std::vector<double>());
+  get_parameter("wp_2", wp_);
+
+  wp.pose.position.x = wp_[0];
+  wp.pose.position.y = wp_[1];
   waypoints_.push_back(wp);
 
   // wp3
-  wp.pose.position.x = -0.56;
-  wp.pose.position.y = 0.24;
+  declare_parameter("wp_3", std::vector<double>());
+  get_parameter("wp_3", wp_);
+
+  wp.pose.position.x = wp_[0];
+  wp.pose.position.y = wp_[1];
+  waypoints_.push_back(wp);
+
+  // wp4
+  declare_parameter("wp_4", std::vector<double>());
+  get_parameter("wp_4", wp_);
+
+  wp.pose.position.x = wp_[0];
+  wp.pose.position.y = wp_[1];
   waypoints_.push_back(wp);
 }
 
