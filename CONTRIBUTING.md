@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# Contributing to bump_and_stop_nocompila
+# Contributing to patrolling_nocompila
 
 First off, thanks for taking the time to contribute! ❤️
 

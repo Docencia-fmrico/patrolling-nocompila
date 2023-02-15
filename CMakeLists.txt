@@ -41,19 +41,13 @@ set(dependencies
 
 include_directories(include ${ZMQ_INCLUDE_DIRS})
 
-add_library(nc_recharge_bt_node SHARED src/nc_bt_patrolling/Recharge.cpp)
 add_library(nc_patrol_bt_node SHARED src/nc_bt_patrolling/Patrol.cpp)
 add_library(nc_move_bt_node SHARED src/nc_bt_patrolling/Move.cpp)
 add_library(nc_get_waypoint_bt_node SHARED src/nc_bt_patrolling/GetWaypoint.cpp)
-add_library(nc_battery_checker_bt_node SHARED src/nc_bt_patrolling/BatteryChecker.cpp)
-add_library(nc_track_objects_bt_node SHARED src/nc_bt_patrolling/TrackObjects.cpp)
 list(APPEND plugin_libs
-  nc_recharge_bt_node
   nc_patrol_bt_node
   nc_move_bt_node
   nc_get_waypoint_bt_node
-  nc_battery_checker_bt_node
-  nc_track_objects_bt_node
 )
 
 foreach(bt_plugin ${plugin_libs})
