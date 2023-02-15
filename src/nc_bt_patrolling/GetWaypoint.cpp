@@ -70,15 +70,8 @@ GetWaypoint::halt()
 BT::NodeStatus
 GetWaypoint::tick()
 {
-  std::string id;
-  getInput("wp_id", id);
-
-  if (id == "recharge") {
-    setOutput("waypoint", recharge_point_);
-  } else {
-    setOutput("waypoint", waypoints_[current_++]);
-    current_ = current_ % waypoints_.size();
-  }
+  setOutput("waypoint", waypoints_[current_++]);
+  current_ = current_ % waypoints_.size();
 
   return BT::NodeStatus::SUCCESS;
 }
