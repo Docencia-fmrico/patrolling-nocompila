@@ -12,21 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
+# import os
 
-from ament_index_python.packages import get_package_share_directory
+# from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+# from launch.actions import IncludeLaunchDescription
+# from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 
 def generate_launch_description():
 
-    #tracking_dir = get_package_share_directory('~/book_ros2/br2_tracking')
+    # tracking_dir = get_package_share_directory('~/book_ros2/br2_tracking')
 
-    #tracking_cmd = IncludeLaunchDescription(
+    # tracking_cmd = IncludeLaunchDescription(
     #    PythonLaunchDescriptionSource(os.path.join(tracking_dir, 'launch', 'tracking.launch.py')))
 
     patrolling_cmd = Node(
@@ -45,7 +45,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     # Add any actions
-    #ld.add_action(tracking_cmd)
+    # ld.add_action(tracking_cmd)
     ld.add_action(patrolling_cmd)
 
     return ld

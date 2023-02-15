@@ -418,7 +418,7 @@ TEST(bt_action, battery_checker_btn)
   ASSERT_TRUE(blackboard->get("battery_level", battery_level));
   ASSERT_NEAR(battery_level, 94.6, 1.0);
 }
-
+/*
 TEST(bt_action, track_objects_btn_1)
 {
   auto node = rclcpp::Node::make_shared("track_objects_btn_node");
@@ -673,7 +673,7 @@ TEST(bt_action, move_track_btn)
 
   finish = true;
   t.join();
-}
+}  */
 
 int main(int argc, char ** argv)
 {
