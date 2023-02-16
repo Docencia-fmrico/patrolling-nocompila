@@ -22,11 +22,12 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 
 #include "geometry_msgs/msg/pose_stamped.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 namespace nc_bt_patrolling
 {
 
-class GetWaypoint : public BT::ActionNodeBase
+class GetWaypoint : public BT::ActionNodeBase, public rclcpp::Node
 {
 public:
   explicit GetWaypoint(
@@ -46,9 +47,9 @@ public:
   }
 
 private:
-  geometry_msgs::msg::PoseStamped recharge_point_;
   std::vector<geometry_msgs::msg::PoseStamped> waypoints_;
   static int current_;
+  std::vector<double> wp_;
 };
 
 }  // namespace nc_bt_patrolling
