@@ -72,6 +72,18 @@ GetWaypoint::GetWaypoint(
   wp.pose.position.x = wp_[0];
   wp.pose.position.y = wp_[1];
   waypoints_.push_back(wp);
+
+  // wp5
+  declare_parameter("wp_5", std::vector<double>());
+  get_parameter("wp_5", wp_);
+
+  wp.pose.position.x = wp_[0];
+  wp.pose.position.y = wp_[1];
+  waypoints_.push_back(wp);
+
+  // waypoint names
+  declare_parameter("wp_names", std::vector<std::string>());
+  get_parameter("wp_names", wp_names_);
 }
 
 void
@@ -82,6 +94,7 @@ GetWaypoint::halt()
 BT::NodeStatus
 GetWaypoint::tick()
 {
+  setOutput("wp_name", wp_names_[current_]);
   setOutput("waypoint", waypoints_[current_++]);
   current_ = current_ % waypoints_.size();
 

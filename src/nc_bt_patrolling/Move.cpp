@@ -41,7 +41,8 @@ Move::on_tick()
 {
   geometry_msgs::msg::PoseStamped goal;
   getInput("goal", goal);
-  std::cout << "Pito" << std::endl;
+
+  std::cout << "MOVING TO THE NEXT WAYPOINT PLANNED, COMMANDER\n" << std::endl;
 
   goal_.pose = goal;
 }

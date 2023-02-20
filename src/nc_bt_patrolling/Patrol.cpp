@@ -47,8 +47,12 @@ Patrol::halt()
 BT::NodeStatus
 Patrol::tick()
 {
+  // pp comes from "patrolling point"
+  getInput("wp_name", pp_name_);
+
   if (status() == BT::NodeStatus::IDLE) {
     start_time_ = node_->now();
+    std::cout << "STARTING PATROL OF " << pp_name_ << ", LOOKING FOR HOSTILE ENEMIES" << std::endl;
   }
 
   geometry_msgs::msg::Twist vel_msgs;
@@ -60,6 +64,7 @@ Patrol::tick()
   if (elapsed < 15s) {
     return BT::NodeStatus::RUNNING;
   } else {
+    std::cout << "ALL CLEAR COMMANDER ABITO\n" << std::endl;
     return BT::NodeStatus::SUCCESS;
   }
 }

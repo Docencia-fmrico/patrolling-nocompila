@@ -42,7 +42,8 @@ public:
     return BT::PortsList(
       {
         BT::InputPort<std::string>("wp_id"),
-        BT::OutputPort<geometry_msgs::msg::PoseStamped>("waypoint")
+        BT::OutputPort<geometry_msgs::msg::PoseStamped>("waypoint"),
+        BT::OutputPort<std::string>("wp_name")
       });
   }
 
@@ -50,6 +51,7 @@ private:
   std::vector<geometry_msgs::msg::PoseStamped> waypoints_;
   static int current_;
   std::vector<double> wp_;
+  std::vector<std::string> wp_names_;
 };
 
 }  // namespace nc_bt_patrolling

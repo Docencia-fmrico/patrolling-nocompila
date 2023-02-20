@@ -22,6 +22,7 @@
 
 #include "geometry_msgs/msg/twist.hpp"
 
+#include "geometry_msgs/msg/pose_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 namespace nc_bt_patrolling
@@ -39,10 +40,14 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return BT::PortsList({});
+    return BT::PortsList(
+      {
+        BT::InputPort<std::string>("wp_name")
+      });
   }
 
 private:
+  std::string pp_name_;
   rclcpp::Node::SharedPtr node_;
   rclcpp::Time start_time_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
