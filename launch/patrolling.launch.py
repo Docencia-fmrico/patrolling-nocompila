@@ -46,7 +46,9 @@ def generate_launch_description():
           'wp_1': conf['nc_bt_patrolling']['way_points']['wp_1'],
           'wp_2': conf['nc_bt_patrolling']['way_points']['wp_2'],
           'wp_3': conf['nc_bt_patrolling']['way_points']['wp_3'],
-          'wp_4': conf['nc_bt_patrolling']['way_points']['wp_4']
+          'wp_4': conf['nc_bt_patrolling']['way_points']['wp_4'],
+          'wp_5': conf['nc_bt_patrolling']['way_points']['wp_5'],
+          'wp_names': conf['nc_bt_patrolling']['wp_names']
         }],
         remappings=[
           ('input_scan', conf['nc_bt_patrolling']['input_scan']),
