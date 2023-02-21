@@ -128,6 +128,7 @@ public:
   BT::NodeStatus tick()
   {
     waypoints_.push_back(getInput<geometry_msgs::msg::PoseStamped>("in").value());
+    // wp_names_.push_back(getInput<std::string>("in").value());
     return BT::NodeStatus::SUCCESS;
   }
 
@@ -135,14 +136,17 @@ public:
   {
     return BT::PortsList(
     {
-      BT::InputPort<geometry_msgs::msg::PoseStamped>("in")
+      BT::InputPort<geometry_msgs::msg::PoseStamped>("in"),
+      // BT::InputPort<std::string>("in")
     });
   }
 
   static std::vector<geometry_msgs::msg::PoseStamped> waypoints_;
+  // static std::vector<std::string> wp_names_;
 };
 
 std::vector<geometry_msgs::msg::PoseStamped> StoreWP::waypoints_;
+// std::vector<std::string> StoreWP::wp_names_;
 
 TEST(bt_action, patrol_btn)
 {
@@ -158,12 +162,14 @@ TEST(bt_action, patrol_btn)
     R"(
     <root main_tree_to_execute = "MainTree" >
       <BehaviorTree ID="MainTree">
-          <Patrol    name="patrol"/>
+          <Patrol    name="patrol" wp_name="{wp_name}"/>
       </BehaviorTree>
     </root>)";
 
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+  std::string wp_name;
+  blackboard->set("wp_name", wp_name);
   BT::Tree tree = factory.createTreeFromText(xml_bt, blackboard);
 
   rclcpp::Rate rate(10);
@@ -240,43 +246,6 @@ TEST(bt_action, get_waypoint_btn)
     BT::BehaviorTreeFactory factory;
     BT::SharedLibrary loader;
 
-    factory.registerFromPlugin(loader.getOSName("nc_get_waypoint_bt_node"));
-
-    std::string xml_bt =
-      R"(
-      <root main_tree_to_execute = "MainTree" >
-        <BehaviorTree ID="MainTree">
-          <GetWaypoint    name="recharge" wp_id="{id}" waypoint="{waypoint}"/>
-        </BehaviorTree>
-      </root>)";
-
-    auto blackboard = BT::Blackboard::create();
-    blackboard->set("node", node);
-    blackboard->set<std::string>("id", "  ");
-
-    BT::Tree tree = factory.createTreeFromText(xml_bt, blackboard);
-
-    rclcpp::Rate rate(10);
-
-    bool finish = false;
-    int counter = 0;
-    while (!finish && rclcpp::ok()) {
-      finish = tree.rootNode()->executeTick() == BT::NodeStatus::SUCCESS;
-      counter++;
-      rate.sleep();
-    }
-
-    auto point = blackboard->get<geometry_msgs::msg::PoseStamped>("waypoint");
-
-    ASSERT_EQ(counter, 1);
-    ASSERT_NEAR(point.pose.position.x, 1.07, 0.0000001);
-    ASSERT_NEAR(point.pose.position.y, -12.38, 0.0000001);
-  }
-
-  {
-    BT::BehaviorTreeFactory factory;
-    BT::SharedLibrary loader;
-
     factory.registerNodeType<StoreWP>("StoreWP");
     factory.registerFromPlugin(loader.getOSName("nc_get_waypoint_bt_node"));
 
@@ -289,15 +258,11 @@ TEST(bt_action, get_waypoint_btn)
              <StoreWP in="{waypoint}"/>
              <GetWaypoint    name="wp2" wp_id="next" waypoint="{waypoint}"/>
              <StoreWP in="{waypoint}"/>
-             <GetWaypoint    name="wp3" wp_id="" waypoint="{waypoint}"/>
+             <GetWaypoint    name="wp3" wp_id="next" waypoint="{waypoint}"/>
              <StoreWP in="{waypoint}"/>
-             <GetWaypoint    name="wp4" wp_id="recharge" waypoint="{waypoint}"/>
+             <GetWaypoint    name="wp4" wp_id="next" waypoint="{waypoint}"/>
              <StoreWP in="{waypoint}"/>
-             <GetWaypoint    name="wp5" wp_id="wp1" waypoint="{waypoint}"/>
-             <StoreWP in="{waypoint}"/>
-             <GetWaypoint    name="wp6" wp_id="wp2" waypoint="{waypoint}"/>
-             <StoreWP in="{waypoint}"/>
-             <GetWaypoint    name="wpt" waypoint="{waypoint}"/>
+             <GetWaypoint    name="wp5" wp_id="next" waypoint="{waypoint}"/>
              <StoreWP in="{waypoint}"/>
           </Sequence>
         </BehaviorTree>
@@ -317,25 +282,27 @@ TEST(bt_action, get_waypoint_btn)
     }
 
     const auto & waypoints = StoreWP::waypoints_;
-    ASSERT_EQ(waypoints.size(), 7);
-    ASSERT_NEAR(waypoints[0].pose.position.x, 1.07, 0.0000001);
-    ASSERT_NEAR(waypoints[0].pose.position.y, -12.38, 0.0000001);
-    ASSERT_NEAR(waypoints[1].pose.position.x, -5.32, 0.0000001);
-    ASSERT_NEAR(waypoints[1].pose.position.y, -8.85, 0.0000001);
-    ASSERT_NEAR(waypoints[2].pose.position.x, -0.56, 0.0000001);
-    ASSERT_NEAR(waypoints[2].pose.position.y, 0.24, 0.0000001);
+    ASSERT_EQ(waypoints.size(), 5);
+    ASSERT_NEAR(waypoints[0].pose.position.x, 1.13, 0.0000001);
+    ASSERT_NEAR(waypoints[0].pose.position.y, 3.07, 0.0000001);
+    ASSERT_NEAR(waypoints[1].pose.position.x, -6.22, 0.0000001);
+    ASSERT_NEAR(waypoints[1].pose.position.y, 0.00, 0.0000001);
+    ASSERT_NEAR(waypoints[2].pose.position.x, -5.26, 0.0000001);
+    ASSERT_NEAR(waypoints[2].pose.position.y, -3.56, 0.0000001);
+    ASSERT_NEAR(waypoints[3].pose.position.x, 1.10, 0.0000001);
+    ASSERT_NEAR(waypoints[3].pose.position.y, -4.38, 0.0000001);
+    ASSERT_NEAR(waypoints[4].pose.position.x, 6.19, 0.0000001);
+    ASSERT_NEAR(waypoints[4].pose.position.y, -2.83, 0.0000001);
 
-    ASSERT_NEAR(waypoints[3].pose.position.x, 3.67, 0.0000001);
-    ASSERT_NEAR(waypoints[3].pose.position.y, -0.24, 0.0000001);
-
-    ASSERT_NEAR(waypoints[4].pose.position.x, 1.07, 0.0000001);
-    ASSERT_NEAR(waypoints[4].pose.position.y, -12.38, 0.0000001);
-    ASSERT_NEAR(waypoints[5].pose.position.x, -5.32, 0.0000001);
-    ASSERT_NEAR(waypoints[5].pose.position.y, -8.85, 0.0000001);
-    ASSERT_NEAR(waypoints[6].pose.position.x, -0.56, 0.0000001);
-    ASSERT_NEAR(waypoints[6].pose.position.y, 0.24, 0.0000001);
+    const auto & wp_names = StoreWP::wp_names_;
+    ASSERT_EQ(wp_names.size(), 5);
+    ASSERT_EQ(wp_names[0], "GYM ZONE");
+    ASSERT_EQ(wp_names[1], "BEDROOM");
+    ASSERT_EQ(wp_names[2], "PILATES AREA");
+    ASSERT_EQ(wp_names[3], "SOFA");
+    ASSERT_EQ(wp_names[4], "KITCHEN");
   }
-}   */
+}*/
 
 int main(int argc, char ** argv)
 {
