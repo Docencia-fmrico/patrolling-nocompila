@@ -2,20 +2,20 @@
 
 ## INDEX
 
-* [**PRACTICE DESCRIPTION**](#practice-description-🚀)
+* [**PRACTICE DESCRIPTION**](#practice-description)
 * [**INSTALLATION**](#installation)
-* [**TESTING THE CODE OPERATION**](#testing-the-code-operation-⚙️)
+* [**TESTING THE CODE OPERATION**](#testing-the-code-operation)
     * [**START-UP**](#start-up)
 * [**PACKAGE TESTS PERFORMED**](#package-tests-performed)
-* [**DEVELOPED USING**](#developed-using-🛠️)
+* [**DEVELOPED USING**](#developed-using)
 * [**TECHNICL ASPECTS**](#technical-aspects)
 * [**CONTRIBUTION**](#contribution)
 * [**AUTHORS**](#authors)
-* [**ABOUT LICENSE**](#about-license-📄)
+* [**ABOUT LICENSE**](#about-license)
 
 ---
 
-## Practice description 🚀
+## Practice description
 
 _The developed application contains the necessary for the Tiago robot to patrol along 5 waypoints in simulation_
 
@@ -51,7 +51,7 @@ colcon build --packages-select nc_bt_patrolling
 
 ---
 
-## Testing the code operation ⚙️
+## Testing the code operation
 
 _Before launching the simulator we must make sure to configure the [tiago_nav_params.yaml](https://github.com/fmrico/book_ros2/blob/main/br2_navigation/params/tiago_nav_params.yaml) file of the br2_navigation package so the Tiago is correctly configured to be using the home map we've previously made. Also, we need to ensure the world used by the ir_robots package, defined in the [params.yaml](https://github.com/IntelligentRoboticsLabs/ir_robots/blob/ros2-humble/config/params.yaml) file. The world must be 'aws_house'_
 
@@ -92,7 +92,7 @@ _During the practice we have been making sure that all the code periodically pas
 
 ---
 
-## Developed using 🛠️
+## Developed using
 
 _All the software used to carry out this project is mentioned below:_
 
@@ -118,7 +118,7 @@ _Here is a schematic image of the behavior tree used for the implementation of t
 
 _In addition, we also have a video of how our package works:_
 
-* [**Tiago simulation video**](url)
+* [**Tiago simulation video**](https://youtu.be/nlzkDWMOljc)
 ---
 
 ## Contribution
@@ -142,7 +142,7 @@ Also you can go to our [youtube channel](https://www.youtube.com/@nocompila) to 
 
 ---
 
-## About license 📄
+## About license
 
 This project is under license, for more details see the file [LICENSE](LICENSE) 
 
